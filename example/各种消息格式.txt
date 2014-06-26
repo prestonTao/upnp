@@ -1,0 +1,400 @@
+
+
+设备描述回复
+
+<root xmlns="urn:schemas-upnp-org:device-1-0">
+<specVersion>
+<major>1</major>
+<minor>0</minor>
+</specVersion>
+<URLBase></URLBase>
+<device>
+<deviceType>urn:schemas-upnp-org:device:InternetGatewayDevice:1</deviceType>
+<presentationURL>http://192.168.1.1:80       </presentationURL>
+<friendlyName        >Wireless N Router WR845N</friendlyName>
+<manufacturer                         >TP-LINK</manufacturer>
+<manufacturerURL       >http://www.tp-link.com.cn</manufacturerURL>
+<modelDescription                   >TL-WR845N 1.0</modelDescription>
+<modelName                       >TL-WR845N</modelName>
+<modelNumber                             >1.0</modelNumber>
+<UDN>uuid:upnp-InternetGatewayDevice-192168115678900001</UDN>
+<UPC>123456789001</UPC>
+<serviceList>
+<service>
+<serviceType>urn:schemas-upnp-org:service:Layer3Forwarding:1</serviceType>
+<serviceId>urn:upnp-org:serviceId:L3Forwarding1</serviceId>
+<controlURL>/l3f</controlURL>
+<eventSubURL>/l3f</eventSubURL>
+<SCPDURL>/l3f.xml</SCPDURL>
+</service>
+</serviceList>
+<deviceList>
+<device>
+<deviceType>urn:schemas-upnp-org:device:WANDevice:1</deviceType>
+<friendlyName>WAN Device</friendlyName>
+<manufacturer                         >TP-LINK</manufacturer>
+<manufacturerURL       >http://www.tp-link.com.cn</manufacturerURL>
+<modelDescription>WAN Device</modelDescription>
+<modelName>WAN Device</modelName>
+<modelNumber>1</modelNumber>
+<modelURL></modelURL>
+<serialNumber>12345678900001</serialNumber>
+<UDN>uuid:upnp-WANDevice-192168115678900001</UDN>
+<UPC>123456789001</UPC>
+<serviceList>
+<service>
+<serviceType>urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1</serviceTyp
+e>
+<serviceId>urn:upnp-org:serviceId:WANCommonInterfaceConfig</serviceId>
+<controlURL>/ifc</controlURL>
+<eventSubURL>/ifc</eventSubURL>
+<SCPDURL>/ifc.xml</SCPDURL>
+</service>
+</serviceList>
+<deviceList>
+<device>
+<deviceType>urn:schemas-upnp-org:device:WANConnectionDevice:1</deviceType>
+<friendlyName>WAN Connection Device</friendlyName>
+<manufacturer                         >TP-LINK</manufacturer>
+<manufacturerURL       >http://www.tp-link.com.cn</manufacturerURL>
+<modelDescription>WAN Connection Device</modelDescription>
+<modelName>WAN Connection Device</modelName>
+<modelNumber>1</modelNumber>
+<modelURL></modelURL>
+<serialNumber>12345678900001</serialNumber>
+<UDN>uuid:upnp-WANConnectionDevice-192168115678900001</UDN>
+<UPC>123456789001</UPC>
+<serviceList>
+<service>
+<serviceType>urn:schemas-upnp-org:service:WANIPConnection:1</serviceType>
+<serviceId>urn:upnp-org:serviceId:WANIPConnection</serviceId>
+<controlURL>/ipc</controlURL>
+<eventSubURL>/ipc</eventSubURL>
+<SCPDURL>/ipc.xml</SCPDURL>
+</service>
+</serviceList>
+</device>
+</deviceList>
+</device>
+</deviceList>
+</device>
+</root>
+
+
+设备状态 请求
+
+POST /ipc HTTP/1.1
+Content-Type: text/xml
+SOAPAction: "urn:schemas-upnp-org:service:WANIPConnection:1#GetStatusInfo"
+Connection: Close
+User-Agent: Java/1.7.0_45
+Host: 192.168.1.1:1900
+Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+Content-Length: 311
+
+<?xml version="1.0"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <SOAP-ENV:Body>
+    <m:GetStatusInfo xmlns:m="urn:schemas-upnp-org:service:WANIPConnection:1">
+    </m:GetStatusInfo>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+
+
+设备状态 回复
+
+HTTP/1.1 200 OK
+CONNECTION: close
+SERVER: Wireless N Router WR845N, UPnP/1.0
+CONTENT-LENGTH: 480
+CONTENT-TYPE: text/xml; charset="utf-8"
+
+<?xml version="1.0"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <SOAP-ENV:Body>
+    <u:GetStatusInfoResponse xmlns:u="urn:schemas-upnp-org:service:WANIPConnection:1">
+      <NewConnectionStatus>Connected</NewConnectionStatus>
+      <NewLastConnectionError>ERROR_NONE</NewLastConnectionError>
+      <NewUptime>0 Days, 16:45:17</NewUptime>
+    </u:GetStatusInfoResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+
+
+
+请求已经映射的端口号列表
+
+POST /ipc HTTP/1.1
+Content-Type: text/xml
+SOAPAction: "urn:schemas-upnp-org:service:WANIPConnection:1#GetPortMappingNumberOfEntries"
+Connection: Close
+User-Agent: Java/1.7.0_45
+Host: 192.168.1.1:1900
+Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+Content-Length: 343
+
+<?xml version="1.0"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+<SOAP-ENV:Body>
+<m:GetPortMappingNumberOfEntries xmlns:m="urn:schemas-upnp-org:service:WANIPConnection:1">
+</m:GetPortMappingNumberOfEntries>
+</SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+
+
+
+
+返回已经映射到端口号列表
+
+HTTP/1.1 500 Internal Server Error
+CONNECTION: close
+CONTENT-LENGTH: 475
+CONTENT-TYPE: text/xml; charset="utf-8"
+DATE: Sat, 11 Jan 2014 07:17:12 GMT
+EXT:
+SERVER: Wireless N Router WR845N, UPnP/1.0
+
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+<SOAP-ENV:Body>
+<SOAP-ENV:Fault>
+<faultcode>SOAP-ENV:Client</faultcode>
+<faultstring>UPnPError</faultstring>
+<detail>
+<UPnPError xmlns="urn:schemas-upnp-org:control-1-0">
+<errorCode>401</errorCode>
+<errorDescription>Invalid Action</errorDescription>
+</UPnPError>
+</detail>
+</SOAP-ENV:Fault>
+</SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+
+
+
+查看普通端口列表 请求
+
+POST /ipc HTTP/1.1
+Content-Type: text/xml
+SOAPAction: "urn:schemas-upnp-org:service:WANIPConnection:1#GetGenericPortMappingEntry"
+Connection: Close
+User-Agent: Java/1.7.0_45
+Host: 192.168.1.1:1900
+Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+Content-Length: 381
+
+<?xml version="1.0"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <SOAP-ENV:Body>
+    <m:GetGenericPortMappingEntry xmlns:m="urn:schemas-upnp-org:service:WANIPConnection:1">
+      <NewPortMappingIndex>0</NewPortMappingIndex>
+    </m:GetGenericPortMappingEntry>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+
+
+
+回复
+
+HTTP/1.1 500 Internal Server Error
+CONNECTION: close
+CONTENT-LENGTH: 488
+CONTENT-TYPE: text/xml; charset="utf-8"
+DATE: Sat, 11 Jan 2014 07:17:12 GMT
+EXT:
+SERVER: Wireless N Router WR845N, UPnP/1.0
+
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+<SOAP-ENV:Body>
+<SOAP-ENV:Fault>
+<faultcode>SOAP-ENV:Client</faultcode>
+<faultstring>UPnPError</faultstring>
+<detail>
+<UPnPError xmlns="urn:schemas-upnp-org:control-1-0">
+<errorCode>402</errorCode>
+<errorDescription>Invalid NewPortMappingIndex</errorDescription>
+</UPnPError>
+</detail>
+</SOAP-ENV:Fault>
+</SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+
+
+获得外网ip地址 请求
+
+POST /ipc HTTP/1.1
+Content-Type: text/xml
+SOAPAction: "urn:schemas-upnp-org:service:WANIPConnection:1#GetExternalIPAddress"
+Connection: Close
+User-Agent: Java/1.7.0_45
+Host: 192.168.1.1:1900
+Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+Content-Length: 325
+
+<?xml version="1.0"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <SOAP-ENV:Body>
+    <m:GetExternalIPAddress xmlns:m="urn:schemas-upnp-org:service:WANIPConnection:1">
+    </m:GetExternalIPAddress>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+
+
+获得外网ip地址 回复
+
+HTTP/1.1 200 OK
+CONNECTION: close
+SERVER: Wireless N Router WR845N, UPnP/1.0
+CONTENT-LENGTH: 402
+CONTENT-TYPE: text/xml; charset="utf-8"
+
+<?xml version="1.0"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+<SOAP-ENV:Body>
+<u:GetExternalIPAddressResponse xmlns:u="urn:schemas-upnp-org:service:WANIPConnection:1">
+<NewExternalIPAddress>100.64.71.128</NewExternalIPAddress>
+</u:GetExternalIPAddressResponse>
+</SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+
+
+
+
+
+
+得到明确的端口映射列表 请求
+
+POST /ipc HTTP/1.1
+Content-Type: text/xml
+SOAPAction: "urn:schemas-upnp-org:service:WANIPConnection:1#GetSpecificPortMappingEntry"
+Connection: Close
+User-Agent: Java/1.7.0_45
+Host: 192.168.1.1:1900
+Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+Content-Length: 439
+
+<?xml version="1.0"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <SOAP-ENV:Body>
+    <m:GetSpecificPortMappingEntry xmlns:m="urn:schemas-upnp-org:service:WANIPConnection:1">
+      <NewExternalPort>6991</NewExternalPort>
+      <NewProtocol>TCP</NewProtocol>
+      <NewRemoteHost>
+      </NewRemoteHost>
+    </m:GetSpecificPortMappingEntry>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+
+
+回复
+
+HTTP/1.1 500 Internal Server Error
+CONNECTION: close
+CONTENT-LENGTH: 481
+CONTENT-TYPE: text/xml; charset="utf-8"
+DATE: Sat, 11 Jan 2014 07:17:12 GMT
+EXT:
+SERVER: Wireless N Router WR845N, UPnP/1.0
+
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+<SOAP-ENV:Body>
+<SOAP-ENV:Fault>
+<faultcode>SOAP-ENV:Client</faultcode>
+<faultstring>UPnPError</faultstring>
+<detail>
+<UPnPError xmlns="urn:schemas-upnp-org:control-1-0">
+<errorCode>402</errorCode>
+<errorDescription>Invalid ExternalPort</errorDescription>
+</UPnPError>
+</detail>
+</SOAP-ENV:Fault>
+</SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+
+
+
+添加端口映射 请求
+
+POST /ipc HTTP/1.1
+Content-Type: text/xml
+SOAPAction: "urn:schemas-upnp-org:service:WANIPConnection:1#AddPortMapping"
+Connection: Close
+User-Agent: Java/1.7.0_45
+Host: 192.168.1.1:1900
+Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+Content-Length: 627
+
+<?xml version="1.0"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <SOAP-ENV:Body>
+    <m:AddPortMapping xmlns:m="urn:schemas-upnp-org:service:WANIPConnection:1">
+      <NewExternalPort>6991</NewExternalPort>
+      <NewInternalPort>6991</NewInternalPort>
+      <NewProtocol>TCP</NewProtocol>
+      <NewEnabled>1</NewEnabled>
+      <NewInternalClient>192.168.1.110</NewInternalClient>
+      <NewLeaseDuration>0</NewLeaseDuration>
+      <NewPortMappingDescription>test</NewPortMappingDescription>
+      <NewRemoteHost></NewRemoteHost>
+    </m:AddPortMapping>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+
+回复
+
+HTTP/1.1 200 OK
+CONNECTION: close
+SERVER: Wireless N Router WR845N, UPnP/1.0
+CONTENT-LENGTH: 332
+CONTENT-TYPE: text/xml; charset="utf-8"
+
+<?xml version="1.0"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+<SOAP-ENV:Body>
+<u:AddPortMappingResponse xmlns:u="urn:schemas-upnp-org:service:WANIPConnection:1"></u:AddPortMappingResponse></SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+
+
+删除端口映射 请求
+
+POST /ipc HTTP/1.1
+Content-Type: text/xml
+SOAPAction: "urn:schemas-upnp-org:service:WANIPConnection:1#DeletePortMapping"
+Connection: Close
+User-Agent: Java/1.7.0_45
+Host: 192.168.1.1:1900
+Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+Content-Length: 419
+
+<?xml version="1.0"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <SOAP-ENV:Body>
+    <m:DeletePortMapping xmlns:m="urn:schemas-upnp-org:service:WANIPConnection:1">
+      <NewExternalPort>6991</NewExternalPort>
+      <NewProtocol>TCP</NewProtocol>
+      <NewRemoteHost></NewRemoteHost>
+    </m:DeletePortMapping>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+
+
+
+回复
+
+HTTP/1.1 200 OK
+CONNECTION: close
+SERVER: Wireless N Router WR845N, UPnP/1.0
+CONTENT-LENGTH: 338
+CONTENT-TYPE: text/xml; charset="utf-8"
+
+<?xml version="1.0"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <SOAP-ENV:Body>
+    <u:DeletePortMappingResponse xmlns:u="urn:schemas-upnp-org:service:WANIPConnection:1">
+    </u:DeletePortMappingResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+
+
+
+
+
