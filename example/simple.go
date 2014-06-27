@@ -1,40 +1,49 @@
 package main
 
 import (
-	"../../upnp"
-	"bufio"
+	// "bufio"
 	"fmt"
-	"os"
+	"github.com/prestonTao/upnp"
+	// "os"
 )
 
 func main() {
-	StartUP()
+	SearchGateway()
+	ExternalIPAddr()
+	AddPortMapping()
 }
 
-func StartUP() {
-	mapping := new(upnp.Upnp)
-	if ok := mapping.AddPortMapping(55789, 55789, "TCP"); ok {
-		fmt.Println("端口映射成功")
+//搜索网关设备
+func SearchGateway() {
+	upnpMan := new(upnp.Upnp)
+	err := upnpMan.SearchGateway()
+	if err != nil {
+		fmt.Println(err.Error())
 	} else {
-		fmt.Println("不支持upnp协议")
+		fmt.Println("本机ip地址：", upnpMan.LocalHost)
+		fmt.Println("upnp设备地址：", upnpMan.Geteway.Host)
+	}
+}
+
+//获得公网ip地址
+func ExternalIPAddr() {
+	upnpMan := new(upnp.Upnp)
+	err := upnpMan.ExternalIPAddr()
+	if err != nil {
+		fmt.Println(err.Error())
+	} else {
+		fmt.Println("外网ip地址为：", upnpMan.GetewayOutsideIP)
+	}
+}
+
+//添加一个端口映射
+func AddPortMapping() {
+	mapping := new(upnp.Upnp)
+	if err := mapping.AddPortMapping(55789, 55789, "TCP"); err == nil {
+		fmt.Println("端口映射成功")
+		mapping.Reclaim()
+	} else {
+		fmt.Println("端口映射失败")
 	}
 
-	running := true
-	reader := bufio.NewReader(os.Stdin)
-	for running {
-		data, _, _ := reader.ReadLine()
-		command := string(data)
-		switch command {
-		case "find":
-		case "quit":
-			mapping.Reclaim()
-			running = false
-		case "see":
-		case "self":
-		case "cap":
-		case "odp":
-		case "cdp":
-		case "dump":
-		}
-	}
 }

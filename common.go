@@ -1,7 +1,8 @@
 package upnp
 
 import (
-	"log"
+	// "log"
+	"errors"
 	"net"
 	"strings"
 )
@@ -15,9 +16,8 @@ func GetLocalIntenetIp() string {
 
 	conn, err := net.Dial("udp", "google.com:80")
 	if err != nil {
-		log.Println(err.Error())
+		panic(errors.New("不能连接网络"))
 	}
 	defer conn.Close()
-	ip := strings.Split(conn.LocalAddr().String(), ":")[0]
-	return ip
+	return strings.Split(conn.LocalAddr().String(), ":")[0]
 }

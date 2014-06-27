@@ -2,9 +2,14 @@ package upnp
 
 import (
 	// "fmt"
+	"errors"
 	"log"
 	"sync"
 )
+
+/*
+ * 得到网关
+ */
 
 //对所有的端口进行管理
 type MappingPortStruct struct {
@@ -78,26 +83,28 @@ type Upnp struct {
 	MappingPort        MappingPortStruct //已经添加了的映射 {"TCP":[1990],"UDP":[1991]}
 }
 
-func (this *Upnp) init() {
-	this.MappingPort = MappingPortStruct{
-		lock: new(sync.Mutex),
-		// mappingPorts: map[string][][]int{},
-	}
-	this.LocalHost = GetLocalIntenetIp()
-	log.Println("获得本地ip地址:", this.LocalHost)
-}
-
+//得到本地联网的ip地址
 //得到局域网网关ip
-func (this *Upnp) searchGateway() {
+func (this *Upnp) SearchGateway() (err error) {
+	defer func(err error) {
+		if errTemp := recover(); errTemp != nil {
+			log.Println("upnp模块报错了", errTemp)
+			err = errTemp.(error)
+		}
+	}(err)
+
 	if this.LocalHost == "" {
-		this.init()
+		this.MappingPort = MappingPortStruct{
+			lock: new(sync.Mutex),
+			// mappingPorts: map[string][][]int{},
+		}
+		this.LocalHost = GetLocalIntenetIp()
 	}
 	searchGateway := SearchGateway{upnp: this}
 	if searchGateway.Send() {
-		log.Println("成功发现网关设备")
-		return
+		return nil
 	}
-	log.Println("未发现网关设备")
+	return errors.New("未发现网关设备")
 }
 
 func (this *Upnp) deviceStatus() {
@@ -105,51 +112,55 @@ func (this *Upnp) deviceStatus() {
 }
 
 //查看设备描述，得到控制请求url
-func (this *Upnp) deviceDesc() {
+func (this *Upnp) deviceDesc() (err error) {
 	if this.GetewayInsideIP == "" {
-		this.searchGateway()
-		if this.GetewayInsideIP == "" {
-			// princ()
+		if err := this.SearchGateway(); err != nil {
+			return err
 		}
 	}
 	device := DeviceDesc{upnp: this}
 	device.Send()
 	this.Active = true
-	log.Println("获得控制请求url:", this.CtrlUrl)
+	// log.Println("获得控制请求url:", this.CtrlUrl)
+	return
 }
 
 //查看公网ip地址
-func (this *Upnp) externalIPAddr() {
+func (this *Upnp) ExternalIPAddr() (err error) {
 	if this.CtrlUrl == "" {
-		this.deviceDesc()
+		if err := this.deviceDesc(); err != nil {
+			return err
+		}
 	}
 	eia := ExternalIPAddress{upnp: this}
 	eia.Send()
-	log.Println("获得公网ip地址为：", this.GetewayOutsideIP)
+	return nil
+	// log.Println("获得公网ip地址为：", this.GetewayOutsideIP)
 }
 
 //添加一个端口映射
-func (this *Upnp) AddPortMapping(localPort, remotePort int, protocol string) (b bool) {
-	defer func(b bool) {
-		err := recover()
-		if err != nil {
-			log.Println("upnp模块报错了", err)
-			b = false
+func (this *Upnp) AddPortMapping(localPort, remotePort int, protocol string) (err error) {
+	defer func(err error) {
+		if errTemp := recover(); errTemp != nil {
+			log.Println("upnp模块报错了", errTemp)
+			err = errTemp.(error)
 		}
-	}(b)
+	}(err)
 	if this.GetewayOutsideIP == "" {
-		this.externalIPAddr()
+		if err := this.ExternalIPAddr(); err != nil {
+			return err
+		}
 	}
 	addPort := AddPortMapping{upnp: this}
-	issuccess := addPort.Send(localPort, remotePort, protocol)
-	if issuccess {
+	if issuccess := addPort.Send(localPort, remotePort, protocol); issuccess {
 		this.MappingPort.addMapping(localPort, remotePort, protocol)
-		log.Println("添加一个端口映射：protocol:", protocol, "local:", localPort, "remote:", remotePort)
+		// log.Println("添加一个端口映射：protocol:", protocol, "local:", localPort, "remote:", remotePort)
+		return nil
 	} else {
 		this.Active = false
-		log.Println("添加一个端口映射失败")
+		// log.Println("添加一个端口映射失败")
+		return errors.New("添加一个端口映射失败")
 	}
-	return issuccess
 }
 
 func (this *Upnp) DelPortMapping(remotePort int, protocol string) bool {

@@ -16,7 +16,39 @@ func chk(err error) {
 }
 
 func main() {
-	lAddr := "192.168.1.200"
+	youleTest()
+}
+
+func youleTest() {
+	lAddr := "192.168.1.100"
+	rAddr := "192.168.1.2"
+	//---------------------------------------------------------
+	//      搜素网关设备
+	//---------------------------------------------------------
+
+	searchDevice(lAddr+":9981", "239.255.255.250:1900")
+
+	//---------------------------------------------------------
+	//      查看设备描述
+	//---------------------------------------------------------
+
+	// readDeviceDesc(rAddr + ":1900")
+
+	//---------------------------------------------------------
+	//      查看设备状态 SOAPAction: "urn:schemas-upnp-org:service:WANIPConnection:1#GetStatusInfo"\r\n
+	//---------------------------------------------------------
+	// getDeviceStatusInfo(rAddr + ":1900")
+	getDeviceStatusInfo(rAddr + ":56688")
+
+	addPortMapping(rAddr + ":56688")
+
+	time.Sleep(time.Second * 10)
+
+	remotePort(rAddr + ":56688")
+}
+
+func simple1() {
+	lAddr := "192.168.1.100"
 	rAddr := "192.168.1.1"
 	//---------------------------------------------------------
 	//      搜素网关设备
@@ -40,7 +72,6 @@ func main() {
 	time.Sleep(time.Second * 10)
 
 	remotePort(rAddr + ":1900")
-
 }
 
 func searchDevice(localAddr, remoteAddr string) string {
@@ -161,7 +192,7 @@ func addPortMapping(rAddr string) {
 <NewInternalPort>6991</NewInternalPort>
 <NewProtocol>TCP</NewProtocol>
 <NewEnabled>1</NewEnabled>
-<NewInternalClient>192.168.1.200</NewInternalClient>
+<NewInternalClient>192.168.1.100</NewInternalClient>
 <NewLeaseDuration>0</NewLeaseDuration>
 <NewPortMappingDescription>test</NewPortMappingDescription>
 <NewRemoteHost></NewRemoteHost>
