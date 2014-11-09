@@ -43,7 +43,7 @@ func (this *ExternalIPAddress) BuildRequest() *http.Request {
 
 	bodyStr := body.BuildXML()
 	//请求
-	request, _ := http.NewRequest("POST", "http://"+this.upnp.Geteway.Host+this.upnp.CtrlUrl,
+	request, _ := http.NewRequest("POST", "http://"+this.upnp.Gateway.Host+this.upnp.CtrlUrl,
 		strings.NewReader(bodyStr))
 	request.Header = header
 	request.Header.Set("Content-Length", strconv.Itoa(len([]byte(body.BuildXML()))))
@@ -68,7 +68,7 @@ func (this *ExternalIPAddress) resolve(resultStr string) {
 		// 处理字符数据（这里就是元素的文本）
 		case xml.CharData:
 			if ISexternalIP == true {
-				this.upnp.GetewayOutsideIP = string([]byte(token))
+				this.upnp.GatewayOutsideIP = string([]byte(token))
 				return
 			}
 		default:

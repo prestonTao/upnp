@@ -8,8 +8,8 @@ import (
 	// "net/http"
 )
 
-type Geteway struct {
-	GetewayName   string //网关名称
+type Gateway struct {
+	GatewayName   string //网关名称
 	Host          string //网关ip和端口
 	DeviceDescUrl string //网关设备描述路径
 	Cache         string //cache
@@ -37,7 +37,7 @@ func (this *SearchGateway) Send() bool {
 	}
 	this.resolve(result)
 
-	this.upnp.Geteway.ServiceType = "urn:schemas-upnp-org:service:WANIPConnection:1"
+	this.upnp.Gateway.ServiceType = "urn:schemas-upnp-org:service:WANIPConnection:1"
 	this.upnp.Active = true
 	return true
 }
@@ -95,7 +95,7 @@ func (this *SearchGateway) buildRequest() {
 }
 
 func (this *SearchGateway) resolve(result string) {
-	this.upnp.Geteway = &Geteway{}
+	this.upnp.Gateway = &Gateway{}
 
 	lines := strings.Split(result, "\r\n")
 	for _, line := range lines {
@@ -106,15 +106,15 @@ func (this *SearchGateway) resolve(result string) {
 		}
 		switch strings.ToUpper(strings.Trim(strings.Split(nameValues[0], ":")[0], " ")) {
 		case "ST":
-			this.upnp.Geteway.ST = nameValues[1]
+			this.upnp.Gateway.ST = nameValues[1]
 		case "CACHE-CONTROL":
-			this.upnp.Geteway.Cache = nameValues[1]
+			this.upnp.Gateway.Cache = nameValues[1]
 		case "LOCATION":
 			urls := strings.Split(strings.Split(nameValues[1], "//")[1], "/")
-			this.upnp.Geteway.Host = urls[0]
-			this.upnp.Geteway.DeviceDescUrl = "/" + urls[1]
+			this.upnp.Gateway.Host = urls[0]
+			this.upnp.Gateway.DeviceDescUrl = "/" + urls[1]
 		case "SERVER":
-			this.upnp.Geteway.GetewayName = nameValues[1]
+			this.upnp.Gateway.GatewayName = nameValues[1]
 		default:
 		}
 	}

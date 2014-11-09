@@ -26,14 +26,14 @@ func (this *DeviceDesc) BuildRequest() *http.Request {
 	header := http.Header{}
 	header.Set("Accept", "text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2")
 	header.Set("User-Agent", "preston")
-	header.Set("Host", this.upnp.Geteway.Host)
+	header.Set("Host", this.upnp.Gateway.Host)
 	header.Set("Connection", "keep-alive")
 
 	//请求
-	request, _ := http.NewRequest("GET", "http://"+this.upnp.Geteway.Host+this.upnp.Geteway.DeviceDescUrl, nil)
+	request, _ := http.NewRequest("GET", "http://"+this.upnp.Gateway.Host+this.upnp.Gateway.DeviceDescUrl, nil)
 	request.Header = header
 	// request := http.Request{Method: "GET", Proto: "HTTP/1.1",
-	// 	Host: this.upnp.Geteway.Host, Url: this.upnp.Geteway.DeviceDescUrl, Header: header}
+	// 	Host: this.upnp.Gateway.Host, Url: this.upnp.Gateway.DeviceDescUrl, Header: header}
 	return request
 }
 
@@ -72,7 +72,7 @@ func (this *DeviceDesc) resolve(resultStr string) {
 			content := string([]byte(token))
 
 			//找到提供端口映射的服务
-			if content == this.upnp.Geteway.ServiceType {
+			if content == this.upnp.Gateway.ServiceType {
 				ISUpnpServer = true
 				continue
 			}
