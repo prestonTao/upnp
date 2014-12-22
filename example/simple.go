@@ -21,7 +21,7 @@ func SearchGateway() {
 		fmt.Println(err.Error())
 	} else {
 		fmt.Println("本机ip地址：", upnpMan.LocalHost)
-		fmt.Println("upnp设备地址：", upnpMan.Geteway.Host)
+		fmt.Println("upnp设备地址：", upnpMan.Gateway.Host)
 	}
 }
 
@@ -32,7 +32,7 @@ func ExternalIPAddr() {
 	if err != nil {
 		fmt.Println(err.Error())
 	} else {
-		fmt.Println("外网ip地址为：", upnpMan.GetewayOutsideIP)
+		fmt.Println("外网ip地址为：", upnpMan.GatewayOutsideIP)
 	}
 }
 

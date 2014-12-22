@@ -61,7 +61,7 @@ func (this *AddPortMapping) buildRequest(localPort, remotePort int, protocol str
 	bodyStr := body.BuildXML()
 
 	//请求
-	request, _ := http.NewRequest("POST", "http://"+this.upnp.Geteway.Host+this.upnp.CtrlUrl,
+	request, _ := http.NewRequest("POST", "http://"+this.upnp.Gateway.Host+this.upnp.CtrlUrl,
 		strings.NewReader(bodyStr))
 	request.Header = header
 	request.Header.Set("Content-Length", strconv.Itoa(len([]byte(bodyStr))))

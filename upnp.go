@@ -74,11 +74,11 @@ func (this *MappingPortStruct) GetAllMapping() map[string][][]int {
 type Upnp struct {
 	Active             bool              //这个upnp协议是否可用
 	LocalHost          string            //本机ip地址
-	GetewayInsideIP    string            //局域网网关ip
-	GetewayOutsideIP   string            //网关公网ip
+	GatewayInsideIP    string            //局域网网关ip
+	GatewayOutsideIP   string            //网关公网ip
 	OutsideMappingPort map[string]int    //映射外部端口
 	InsideMappingPort  map[string]int    //映射本机端口
-	Geteway            *Geteway          //网关信息
+	Gateway            *Gateway          //网关信息
 	CtrlUrl            string            //控制请求url
 	MappingPort        MappingPortStruct //已经添加了的映射 {"TCP":[1990],"UDP":[1991]}
 }
@@ -113,7 +113,7 @@ func (this *Upnp) deviceStatus() {
 
 //查看设备描述，得到控制请求url
 func (this *Upnp) deviceDesc() (err error) {
-	if this.GetewayInsideIP == "" {
+	if this.GatewayInsideIP == "" {
 		if err := this.SearchGateway(); err != nil {
 			return err
 		}
@@ -135,7 +135,7 @@ func (this *Upnp) ExternalIPAddr() (err error) {
 	eia := ExternalIPAddress{upnp: this}
 	eia.Send()
 	return nil
-	// log.Println("获得公网ip地址为：", this.GetewayOutsideIP)
+	// log.Println("获得公网ip地址为：", this.GatewayOutsideIP)
 }
 
 //添加一个端口映射
@@ -146,7 +146,7 @@ func (this *Upnp) AddPortMapping(localPort, remotePort int, protocol string) (er
 			err = errTemp.(error)
 		}
 	}(err)
-	if this.GetewayOutsideIP == "" {
+	if this.GatewayOutsideIP == "" {
 		if err := this.ExternalIPAddr(); err != nil {
 			return err
 		}
