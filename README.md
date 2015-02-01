@@ -1,4 +1,4 @@
-### upnp protocol
+## upnp protocol
 ====
 
 A simple implements UPnP protocol for Golang library.  Add port mapping for NAT devices.
@@ -9,7 +9,7 @@ A simple implements UPnP protocol for Golang library.  Add port mapping for NAT 
 
 ## example: 
 
-# 1. add a port mapping
+### 1. add a port mapping
 ~~~ go
 mapping := new(upnp.Upnp)
 if err := mapping.AddPortMapping(55789, 55789, "TCP"); err == nil {
@@ -21,7 +21,7 @@ if err := mapping.AddPortMapping(55789, 55789, "TCP"); err == nil {
 }
 ~~~
 
-# 2. search gateway device.
+### 2. search gateway device.
 ~~~ go
 upnpMan := new(upnp.Upnp)
 err := upnpMan.SearchGateway()
@@ -32,7 +32,7 @@ if err != nil {
 	fmt.Println("gateway ip address: ", upnpMan.Gateway.Host)
 }
 ~~~
-# 3. get an internet ip address in gatway.
+### 3. get an internet ip address in gatway.
 ~~~ go
 upnpMan := new(upnp.Upnp)
 err := upnpMan.ExternalIPAddr()
