@@ -6,6 +6,7 @@ import (
 	"github.com/prestonTao/upnp"
 	"os"
 	"strconv"
+	"strings"
 )
 
 var mapping = new(upnp.Upnp)
@@ -19,7 +20,7 @@ func init() {
 }
 
 func main() {
-
+	Start()
 }
 
 func Start() {
@@ -35,6 +36,18 @@ tag:
 	if !GetInput() {
 		goto tag
 	}
+	if !AddPortMapping(localPort, remotePort) {
+		goto tag
+	}
+
+	fmt.Println("--------------------------------------")
+	fmt.Println("1.  stop    停止程序并回收映射的端口")
+	fmt.Println("2.  add     添加一个端口映射")
+	fmt.Println("3.  del     手动删除一个端口映射")
+	fmt.Println("\n 注意：此程序映射的端口默认是TCP端口")
+	fmt.Println("       需要映射udp端口请访问：")
+	fmt.Println("       http://github.com/prestonTao/upnp")
+	fmt.Println("--------------------------------------")
 
 	running := true
 	for running {
@@ -46,8 +59,14 @@ tag:
 		case "stop":
 			running = false
 			mapping.Reclaim()
-		case "info":
-		case "odp":
+		case "add":
+			goto tag
+		case "del":
+		tagDel:
+			if !GetInput() {
+				goto tagDel
+			}
+			DelPortMapping(localPort, remotePort)
 		case "cdp":
 		case "dump":
 		}
@@ -111,12 +130,20 @@ func GetInput() bool {
 /*
 	添加一个端口映射
 */
-func AddPortMapping(localPort, remotePort int) {
+func AddPortMapping(localPort, remotePort int) bool {
 	//添加一个端口映射
 	if err := mapping.AddPortMapping(localPort, remotePort, "TCP"); err == nil {
 		fmt.Println("端口映射成功")
-
+		return true
 	} else {
 		fmt.Println("端口映射失败")
+		return false
 	}
+}
+
+/*
+	删除一个端口映射
+*/
+func DelPortMapping(localPort, remotePort int) {
+	mapping.DelPortMapping(remotePort, "TCP")
 }
