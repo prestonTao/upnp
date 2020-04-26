@@ -13,8 +13,8 @@ type AddPortMapping struct {
 	upnp *Upnp
 }
 
-func (this *AddPortMapping) Send(localPort, remotePort int, protocol string) bool {
-	request := this.buildRequest(localPort, remotePort, protocol)
+func (this *AddPortMapping) Send(localPort, remotePort uint16, protocol Protocol, describe string) bool {
+	request := this.buildRequest(localPort, remotePort, string(protocol), describe)
 	response, _ := http.DefaultClient.Do(request)
 	resultBody, _ := ioutil.ReadAll(response.Body)
 	if response.StatusCode == 200 {
@@ -23,7 +23,7 @@ func (this *AddPortMapping) Send(localPort, remotePort int, protocol string) boo
 	}
 	return false
 }
-func (this *AddPortMapping) buildRequest(localPort, remotePort int, protocol string) *http.Request {
+func (this *AddPortMapping) buildRequest(localPort, remotePort uint16, protocol string, describe string) *http.Request {
 	//请求头
 	header := http.Header{}
 	header.Set("Accept", "text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2")
@@ -39,13 +39,13 @@ func (this *AddPortMapping) buildRequest(localPort, remotePort int, protocol str
 	childTwo := Node{Name: `m:AddPortMapping`,
 		Attr: map[string]string{"xmlns:m": `"urn:schemas-upnp-org:service:WANIPConnection:1"`}}
 
-	childList1 := Node{Name: "NewExternalPort", Content: strconv.Itoa(remotePort)}
-	childList2 := Node{Name: "NewInternalPort", Content: strconv.Itoa(localPort)}
+	childList1 := Node{Name: "NewExternalPort", Content: strconv.Itoa(int(remotePort))}
+	childList2 := Node{Name: "NewInternalPort", Content: strconv.Itoa(int(localPort))}
 	childList3 := Node{Name: "NewProtocol", Content: protocol}
 	childList4 := Node{Name: "NewEnabled", Content: "1"}
 	childList5 := Node{Name: "NewInternalClient", Content: this.upnp.LocalHost}
 	childList6 := Node{Name: "NewLeaseDuration", Content: "0"}
-	childList7 := Node{Name: "NewPortMappingDescription", Content: "mandela"}
+	childList7 := Node{Name: "NewPortMappingDescription", Content: describe}
 	childList8 := Node{Name: "NewRemoteHost"}
 	childTwo.AddChild(childList1)
 	childTwo.AddChild(childList2)

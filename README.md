@@ -42,3 +42,12 @@ if err != nil {
 	fmt.Println("internet ip address: ", upnpMan.GatewayOutsideIP)
 }
 ~~~
+
+### 4. get all roles you have set.
+```go
+upnpMan := new(upnp.Upnp)
+rules := upnpMan.GetAllMapping
+for _, rule := range maps {
+	fmt.Println("Protocol:", rule.Protocol,"| Describe:", rule.Describe,"| Port:",rule.RemotePort,"->",rule.LocalPort)
+}
+```

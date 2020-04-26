@@ -12,7 +12,7 @@ type DelPortMapping struct {
 	upnp *Upnp
 }
 
-func (this *DelPortMapping) Send(remotePort int, protocol string) bool {
+func (this *DelPortMapping) Send(remotePort uint16, protocol Protocol) bool {
 	request := this.buildRequest(remotePort, protocol)
 	response, _ := http.DefaultClient.Do(request)
 	resultBody, _ := ioutil.ReadAll(response.Body)
@@ -23,7 +23,7 @@ func (this *DelPortMapping) Send(remotePort int, protocol string) bool {
 	}
 	return false
 }
-func (this *DelPortMapping) buildRequest(remotePort int, protocol string) *http.Request {
+func (this *DelPortMapping) buildRequest(remotePort uint16, protocol Protocol) *http.Request {
 	//请求头
 	header := http.Header{}
 	header.Set("Accept", "text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2")
@@ -39,8 +39,8 @@ func (this *DelPortMapping) buildRequest(remotePort int, protocol string) *http.
 	childOne := Node{Name: `SOAP-ENV:Body`}
 	childTwo := Node{Name: `m:DeletePortMapping`,
 		Attr: map[string]string{"xmlns:m": `"urn:schemas-upnp-org:service:WANIPConnection:1"`}}
-	childList1 := Node{Name: "NewExternalPort", Content: strconv.Itoa(remotePort)}
-	childList2 := Node{Name: "NewProtocol", Content: protocol}
+	childList1 := Node{Name: "NewExternalPort", Content: strconv.Itoa(int(remotePort))}
+	childList2 := Node{Name: "NewProtocol", Content: string(protocol)}
 	childList3 := Node{Name: "NewRemoteHost"}
 	childTwo.AddChild(childList1)
 	childTwo.AddChild(childList2)
