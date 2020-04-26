@@ -7,6 +7,11 @@ A simple implements UPnP protocol for Golang library.  Add port mapping for NAT 
 
 ====
 
+## install:
+```shell script
+go get github.com/shlande/upnp
+```
+
 ## example: 
 
 ### 1. add a port mapping
